@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register
+{% endblock %}
+
+{% block body %}
+<style>
+body{
+    background-color: #041228
+}
+</style>
+	<div class="container d-flex justify-content-center align-items-center min-vh-100">
+		<div class="row w-100">
+			<div class="col-md-6 mt-5">
+				<div class="card p-5 shadow-lg">
+					<h1 class="text-start mb-4 fw-bold">SIGN UP</h1>
+					{% for flash_error in app.flashes('verify_email_error') %}
+						<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+					{% endfor %}
+
+					{{ form_start(registrationForm) }}
+
+					<div class="row">
+						<div class="col-md-6 mb-1">
+							{{ form_row(registrationForm.firstName, {'attr': {'placeholder': 'First Name', 'class': 'form-control'}}) }}
+						</div>
+						<div class="col-md-6 mb-1">
+							{{ form_row(registrationForm.lastName, {'attr': {'placeholder': 'Last Name', 'class': 'form-control'}}) }}
+						</div>
+					</div>
+					<div class="mb-1">
+						{{ form_row(registrationForm.phone, {'attr': {'placeholder': 'Phone Number', 'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-1">
+						{{ form_row(registrationForm.email, {'attr': {'placeholder': 'Email Address', 'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-1">
+						{{ form_row(registrationForm.plainPassword, {'attr': {'placeholder': '8+ strong characters', 'class': 'form-control'}}) }}
+					</div>
+					<div class="mb-1">
+						{{ form_row(registrationForm.agreeTerms, {
+                            'label': 'I agree to all terms & conditions',
+                            'attr': {'class': 'form-check-input'}
+                        }) }}
+					</div>
+
+					<div class="d-grid">
+						<button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+					</div>
+
+					{{ form_end(registrationForm) }}
+				</div>
+			</div>
+			<div class="col-md-6 d-none d-md-flex justify-content-center align-items-center flex-column">
+				<img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid m-5" style="width: 50%; height: 20%;">
+				<img src="{{ asset('images/user.png') }}" alt="User Image" class="img-fluid" style="width: 100%; height:1000%;">
+			</div>
+		</div>
+	</div>
+{% endblock %}
