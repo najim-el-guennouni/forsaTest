@@ -41,7 +41,8 @@ security:
     access_control:
      - { path: ^/register, roles: PUBLIC_ACCESS  }
      - { path: ^/login, roles: PUBLIC_ACCESS  }
-     - { path: ^/, roles: ROLE_USER }
+     - { path: ^/, roles: PUBLIC_ACCESS }
+     - { path: ^/dashbord, roles: ROLE_USER }
 
 when@test:
     security:
