@@ -1,9 +1,6 @@
 
 # Symfony Project
 
-## Introduction
-This is a Symfony project designed to [briefly describe what your project does or its purpose]. This README provides instructions on how to set up and run the project on your local machine.
-
 ## Requirements
 Before you begin, ensure you have met the following requirements:
 - **PHP**: Version 8.2 or higher
