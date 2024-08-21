@@ -1,0 +1,30 @@
+{# templates/registration/confirmation.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation
+{% endblock %}
+
+{% block body %}
+	<style>
+		body {
+			background-color: #041228
+		}
+	</style>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row w-100">
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div class="card py-5 px-4 shadow-lg text-center d-flex flex-column align-items-center justify-content-center">
+                <img src="{{ asset('images/checkmark.png') }}" alt="Checkmark" class="img-fluid" style="max-width: 100px;">
+                <p class="mb-4">Nous vous remercions pour votre inscription à la plateforme Foorsa.</p>
+                <p class="mb-5">Merci de bien vouloir confirmer votre inscription via votre adresse mail.</p>
+            </div>
+        </div>
+        <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center flex-column">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid m-5" style="width: 50%; height: 20%;">
+            <img src="{{ asset('images/user.png') }}" alt="User Image" class="img-fluid" style="width: 100%; height:1000%;">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
