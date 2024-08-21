@@ -85,7 +85,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // Redirect to a default route after successful authentication
-        return new RedirectResponse($this->urlGenerator->generate('default_route'));
+        return new RedirectResponse($this->urlGenerator->generate('app_main'));
     }
 
     protected function getLoginUrl(Request $request): string

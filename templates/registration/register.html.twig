@@ -4,11 +4,11 @@
 {% endblock %}
 
 {% block body %}
-<style>
-body{
-    background-color: #041228
-}
-</style>
+	<style>
+		body {
+			background-color: #041228;
+		}
+	</style>
 	<div class="container d-flex justify-content-center align-items-center min-vh-100">
 		<div class="row w-100">
 			<div class="col-md-6 mt-5">
@@ -34,14 +34,19 @@ body{
 					<div class="mb-1">
 						{{ form_row(registrationForm.email, {'attr': {'placeholder': 'Email Address', 'class': 'form-control'}}) }}
 					</div>
-					<div class="mb-1">
-						{{ form_row(registrationForm.plainPassword, {'attr': {'placeholder': '8+ strong characters', 'class': 'form-control'}}) }}
+					<div class="row">
+						<div class="col-md-6 mb-1">
+							{{ form_row(registrationForm.plainPassword, {'attr': {'placeholder': '8+ strong characters', 'class': 'form-control'}}) }}
+						</div>
+						<div class="col-md-6 mb-1">
+							{{ form_row(registrationForm.confirm_password, {'attr': {'placeholder': 'Confirm Password', 'class': 'form-control'}}) }}
+						</div>
 					</div>
 					<div class="mb-1">
 						{{ form_row(registrationForm.agreeTerms, {
-                            'label': 'I agree to all terms & conditions',
-                            'attr': {'class': 'form-check-input'}
-                        }) }}
+                        'label': 'I agree to all terms & conditions',
+                        'attr': {'class': 'form-check-input'}
+                    }) }}
 					</div>
 
 					<div class="d-grid">
