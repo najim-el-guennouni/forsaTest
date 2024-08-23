@@ -43,6 +43,12 @@ class Cours
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $active = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
+
+    #[ORM\Column]
+    private ?float $price = null;
+
     public function __construct()
     {
         $this->washLists = new ArrayCollection();
@@ -163,6 +169,30 @@ class Cours
     public function setActive(int $active): static
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

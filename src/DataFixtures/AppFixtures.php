@@ -32,6 +32,7 @@ class AppFixtures extends Fixture
             ->setLastName($faker->lastName)
             ->setPhone('0708112623')
             ->setEmail('test@test.ma')
+            ->setVerified(1)
             ->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $user,
@@ -57,6 +58,8 @@ class AppFixtures extends Fixture
 
         $cours = [];
         for ($i = 0; $i < 20; $i++) {
+            $price = round($faker->randomFloat(2, 10, 500), 2); // Ensures price has two decimal places like 40.00
+
             $cour = new Cours();
             $cour->setTitle($faker->sentence)
                 ->setUser($user)
@@ -64,7 +67,10 @@ class AppFixtures extends Fixture
                 ->setDescription($faker->paragraph)
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setUpdatedAt(new \DateTimeImmutable())
-                ->setLevel($faker->randomElement($levels));
+                ->setLevel($faker->randomElement($levels))
+                ->setPrice($price)
+                ->setImage($faker->imageUrl(640, 480, 'education', true, 'Faker'));
+
 
             $manager->persist($cour);
             $cours[] = $cour;
