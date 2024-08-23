@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -50,6 +52,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    /**
+     * @var Collection<int, WashList>
+     */
+    #[ORM\OneToMany(targetEntity: WashList::class, mappedBy: 'user')]
+    private Collection $washLists;
+
+    /**
+     * @var Collection<int, Cours>
+     */
+    #[ORM\OneToMany(targetEntity: Cours::class, mappedBy: 'User')]
+    private Collection $cours;
+
+    public function __construct()
+    {
+        $this->washLists = new ArrayCollection();
+        $this->cours = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -170,6 +190,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, WashList>
+     */
+    public function getWashLists(): Collection
+    {
+        return $this->washLists;
+    }
+
+    public function addWashList(WashList $washList): static
+    {
+        if (!$this->washLists->contains($washList)) {
+            $this->washLists->add($washList);
+            $washList->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWashList(WashList $washList): static
+    {
+        if ($this->washLists->removeElement($washList)) {
+            // set the owning side to null (unless already changed)
+            if ($washList->getUser() === $this) {
+                $washList->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cours>
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): static
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours->add($cour);
+            $cour->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): static
+    {
+        if ($this->cours->removeElement($cour)) {
+            // set the owning side to null (unless already changed)
+            if ($cour->getUser() === $this) {
+                $cour->setUser(null);
+            }
+        }
 
         return $this;
     }
