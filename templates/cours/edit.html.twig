@@ -1,0 +1,17 @@
+{% extends 'base_User.html.twig' %}
+
+{% block title %}Edit Course{% endblock %}
+
+{% block body %}
+    <h1>Edit Course</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.level) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.image) }}
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    {{ form_end(form) }}
+{% endblock %}

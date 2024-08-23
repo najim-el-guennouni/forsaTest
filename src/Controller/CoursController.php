@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class CoursController extends AbstractController
 {
-    
+
     #[Route('/cours', name: 'cours')]
     public function cours(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -34,13 +34,13 @@ class CoursController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $cours->setUser($this->getUser());
             $cours->setActive(1);
-            
+
             $imageFile = $form->get('image')->getData();
 
             if ($imageFile) {
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
                 try {
                     $imageFile->move(
@@ -58,8 +58,6 @@ class CoursController extends AbstractController
 
             $entityManager->persist($cours);
             $entityManager->flush();
-
-            // Redirect to the course list or a success page
             return $this->redirectToRoute('app_main');
         }
 
@@ -67,11 +65,42 @@ class CoursController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    
+
+    #[Route('/cours/edit/{id}', name: 'cours_edit')]
+    public function edit(Request $request, Cours $cours, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    {
+        $form = $this->createForm(CoursType::class, $cours);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+                $imageFile->move(
+                    $this->getParameter('images_directory'),
+                    $newFilename
+                );
+
+                $cours->setImage($newFilename);
+            }
+
+            $entityManager->flush();
+            return $this->redirectToRoute('app_main');
+        }
+
+        return $this->render('cours/edit.html.twig', [
+            'form' => $form->createView(),
+            'cours' => $cours,
+        ]);
+    }
+
     #[Route('/cours/wishlist', name: 'cours_wishlist')]
     public function wishlist(WashListRepository $washListRepository): Response
     {
-        $user = $this->getUser(); 
+        $user = $this->getUser();
         if (!$user) {
             throw $this->createAccessDeniedException('You need to be logged in to view your wishlist.');
         }
@@ -82,8 +111,8 @@ class CoursController extends AbstractController
             'wishlist' => $wishlist,
         ]);
     }
-    
-    #[Route('/delete/{id}', name: 'course_delete_wish_list')]
+
+    #[Route('/delete/wish/{id}', name: 'course_delete_wish_list')]
     public function delete(WashList $washlist, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($washlist);

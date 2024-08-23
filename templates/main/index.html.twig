@@ -20,9 +20,9 @@
 						<a class="nav-link" href="{{path('app_main')}}">Cours</a>
 					</li>
 					{# {% if not is_granted('IS_AUTHENTICATED_FULLY') %} #}
-						<li class="nav-item dropdown">
-							<a class="nav-link" href="{{path('cours_wishlist')}}">Wash List</a>
-						</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="{{path('cours_wishlist')}}">Wash List</a>
+					</li>
 					{# {% endif %} #}
 
 				</ul>
@@ -55,6 +55,7 @@
 								<span class="text-muted">${{ cour.price }}</span>
 								<div>
 									<a href="{{path('add_wash_list', {id: cour.id})}}" class="btn btn-outline-primary btn-sm me-2">Add to cart</a>
+									<a href="{{ path('cours_edit', {id: cour.id}) }}" class="btn btn-outline-danger btn-sm">Update</a>
 									{% if app.user and (app.user.id == cour.user.id or is_granted('ROLE_ADMIN')) %}
 										<a href="{{ path('course_delete', {id: cour.id}) }}" class="btn btn-outline-danger btn-sm">Delete</a>
 									{% endif %}
