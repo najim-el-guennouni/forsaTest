@@ -13,8 +13,16 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $cours = $entityManager->getRepository(Cours::class)->findBy(['active'=> 1]);
-        
-        return $this->render('main/index.html.twig',['cours'=>$cours]);
+        $cours = $entityManager->getRepository(Cours::class)->findBy(['active' => 1]);
+
+        return $this->render('main/index.html.twig', ['cours' => $cours]);
+    }
+    #[Route('/delete/{id}', name: 'course_delete')]
+    public function delete(Cours $cour, EntityManagerInterface $entityManager): Response
+    {
+        $cour->setActive(0);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_main');
     }
 }
