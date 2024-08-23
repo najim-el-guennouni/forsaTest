@@ -27,15 +27,15 @@ class MainController extends AbstractController
 
         return $this->redirectToRoute('app_main');
     }
-    #[Route('/add/{id}', name: 'add_wash_list')]
-    public function add(Cours $cour, EntityManagerInterface $entityManager): Response
+    #[Route('/add_wash_list/{id}', name: 'add_wash_list')]
+    public function addWashList(Cours $cour, EntityManagerInterface $entityManager): Response
     {
         $washlist = new WashList();
         $washlist->setUser($this->getUser());
         $washlist->setCours($cour);
-        $entityManager->persist($cour);
+        $entityManager->persist($washlist);
         $entityManager->flush();
 
-        return $this->redirectToRoute('cours_wishlist');
+        return $this->redirectToRoute('app_main');
     }
 }
