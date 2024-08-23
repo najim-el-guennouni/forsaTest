@@ -15,6 +15,20 @@ class WashListRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, WashList::class);
     }
+    
+    /**
+     * Get the wishlist for a specific user
+     */
+    public function findWishlistByUser($user)
+    {
+        return $this->createQueryBuilder('w')
+            ->innerJoin('w.cours', 'c')
+            ->addSelect('c')
+            ->where('w.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return WashList[] Returns an array of WashList objects

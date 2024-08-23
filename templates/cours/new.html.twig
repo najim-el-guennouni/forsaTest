@@ -1,0 +1,52 @@
+{% extends 'base_User.html.twig' %}
+
+{% block title %}Add New Course{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Add New Course</h1>
+
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.title) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_help(form.title) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_help(form.description) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.price) }}
+                        {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_help(form.price) }}
+                        {{ form_errors(form.price) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.image) }}
+                        {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_help(form.image) }}
+                        {{ form_errors(form.image) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.level) }}
+                        {{ form_widget(form.level, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_help(form.level) }}
+                        {{ form_errors(form.level) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

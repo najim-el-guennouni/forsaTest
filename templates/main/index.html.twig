@@ -5,51 +5,32 @@
 
 {% block body %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div
-			class="container-fluid">
-			<!-- Logo -->
+		<div class="container-fluid">
 			<a class="navbar-brand" href="#">
 				<img src="{{ asset('images/logoBlack.png') }}" alt="Logo" style="max-width: 120px;">
 			</a>
 
-			<!-- Toggler/collapsing button for mobile view -->
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<!-- Navbar links and buttons -->
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul
-					class="navbar-nav me-auto mb-2 mb-lg-0">
-					<!-- Courses Dropdown -->
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Courses
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li>
-								<a class="dropdown-item" href="#">Course 1</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Course 2</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Course 3</a>
-							</li>
-						</ul>
+						<a class="nav-link" href="{{path('app_main')}}">Cours</a>
 					</li>
+					{# {% if not is_granted('IS_AUTHENTICATED_FULLY') %} #}
+						<li class="nav-item dropdown">
+							<a class="nav-link" href="{{path('cours_wishlist')}}">Wash List</a>
+						</li>
+					{# {% endif %} #}
 
-					<!-- Other Links -->
-					<li class="nav-item">
-						<a class="nav-link" href="#">Categories</a>
-					</li>
 				</ul>
 
 				<form class="d-flex me-3">
 					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 					<button class="btn btn-outline-success" type="submit">Search</button>
 				</form>
-
 				{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
 					<div class="d-flex">
 						<a href="{{ path('app_register') }}" class="btn btn-outline-primary me-2">Register</a>
@@ -70,13 +51,15 @@
 						<div class="card-body d-flex flex-column">
 							<h5 class="card-title">{{ cour.title }}</h5>
 							<p class="card-text">{{ cour.description|slice(0, 50) ~ '...' }}</p>
-						<div class="mt-auto d-flex justify-content-between align-items-center">
-                    <span class="text-muted">${{ cour.price }}</span>
-                    <div>
-                        <a href="#" class="btn btn-outline-primary btn-sm me-2">Add to cart</a>
-                        <a href="{{ path('course_delete', {id: cour.id}) }}" class="btn btn-outline-danger btn-sm">Delete</a>
-                    </div>
-                </div>
+							<div class="mt-auto d-flex justify-content-between align-items-center">
+								<span class="text-muted">${{ cour.price }}</span>
+								<div>
+									<a href="{{path('add_wash_list', {id: cour.id})}}" class="btn btn-outline-primary btn-sm me-2">Add to cart</a>
+									{% if app.user and (app.user.id == cour.user.id or is_granted('ROLE_ADMIN')) %}
+										<a href="{{ path('course_delete', {id: cour.id}) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+									{% endif %}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

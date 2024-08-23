@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cours;
+use App\Entity\WashList;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,6 +18,7 @@ class MainController extends AbstractController
 
         return $this->render('main/index.html.twig', ['cours' => $cours]);
     }
+    
     #[Route('/delete/{id}', name: 'course_delete')]
     public function delete(Cours $cour, EntityManagerInterface $entityManager): Response
     {
@@ -24,5 +26,16 @@ class MainController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_main');
+    }
+    #[Route('/add/{id}', name: 'add_wash_list')]
+    public function add(Cours $cour, EntityManagerInterface $entityManager): Response
+    {
+        $washlist = new WashList();
+        $washlist->setUser($this->getUser());
+        $washlist->setCours($cour);
+        $entityManager->persist($cour);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('cours_wishlist');
     }
 }
