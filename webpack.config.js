@@ -55,8 +55,11 @@ Encore
     })
 
     // enables Sass/SCSS support
-    .enableSassLoader()
-    // .enablePostCssLoader() 
+    .enableSassLoader((options) => {
+        options.sassOptions = {
+            quietDeps: true // Suppress deprecation warnings
+        };
+    })    // .enablePostCssLoader() 
 
 
     // uncomment if you use TypeScript

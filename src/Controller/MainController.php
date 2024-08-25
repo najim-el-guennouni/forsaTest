@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Cours;
 use App\Entity\WashList;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,9 +14,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,PaginatorInterface $paginator, Request $request): Response
     {
-        $cours = $entityManager->getRepository(Cours::class)->findBy(['active' => 1]);
+     $cours = $paginator->paginate(
+        $entityManager->getRepository(Cours::class)->findBy(['active' => 1]), 
+        $request->query->getInt('page', 1), /*page number*/
+        6 /*limit per page*/
+    );
 
         return $this->render('main/index.html.twig', ['cours' => $cours]);
     }
