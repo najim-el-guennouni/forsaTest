@@ -27,7 +27,7 @@ class CoursType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '1M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',

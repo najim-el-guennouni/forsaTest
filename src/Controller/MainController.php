@@ -30,6 +30,7 @@ class MainController extends AbstractController
     {
         $cour->setActive(0);
         $entityManager->flush();
+        $this->addFlash('success', 'The course has been successfully deleted.');
 
         return $this->redirectToRoute('app_main');
     }
@@ -41,6 +42,8 @@ class MainController extends AbstractController
         $washlist->setCours($cour);
         $entityManager->persist($washlist);
         $entityManager->flush();
+        
+        $this->addFlash('success', 'The course has been added to your wishlist.');
 
         return $this->redirectToRoute('app_main');
     }

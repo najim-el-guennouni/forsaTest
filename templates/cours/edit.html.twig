@@ -1,17 +1,25 @@
 {% extends 'base_User.html.twig' %}
 
-{% block title %}Edit Course{% endblock %}
+{% block title %}Edit Course
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Course</h1>
+	<h1>Edit Course</h1>
+	{% for label, messages in app.flashes %}
+		<div class="alert alert-{{ label }} mt-4">
+			{% for message in messages %}
+				{{ message }}
+			{% endfor %}
+		</div>
+	{% endfor %}
 
-    {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.level) }}
-        {{ form_row(form.price) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.image) }}
+	{{ form_start(form) }}
+	{{ form_row(form.title) }}
+	{{ form_row(form.level) }}
+	{{ form_row(form.price) }}
+	{{ form_row(form.description) }}
+	{{ form_row(form.image) }}
 
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    {{ form_end(form) }}
+	<button type="submit" class="btn btn-primary">Save Changes</button>
+	{{ form_end(form) }}
 {% endblock %}

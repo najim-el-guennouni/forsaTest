@@ -1,52 +1,70 @@
 {% extends 'base_User.html.twig' %}
 
-{% block title %}Add New Course{% endblock %}
+{% block title %}Add New Course
+{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="mb-4">Add New Course</h1>
+	<div class="container mt-5">
+		<h1 class="mb-4">Add New Course</h1>
+		{% for label, messages in app.flashes %}
+			<div class="alert alert-{{ label }} mt-4">
+				{% for message in messages %}
+					{{ message }}
+				{% endfor %}
+			</div>
+		{% endfor %}
+		<div class="card">
+			<div class="card-body">
+				{{ form_start(form) }}
 
-        <div class="card">
-            <div class="card-body">
-                {{ form_start(form) }}
-                    <div class="mb-3">
-                        {{ form_label(form.title) }}
-                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_help(form.title) }}
-                        {{ form_errors(form.title) }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        {{ form_label(form.description) }}
-                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_help(form.description) }}
-                        {{ form_errors(form.description) }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        {{ form_label(form.price) }}
-                        {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_help(form.price) }}
-                        {{ form_errors(form.price) }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        {{ form_label(form.image) }}
-                        {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_help(form.image) }}
-                        {{ form_errors(form.image) }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        {{ form_label(form.level) }}
-                        {{ form_widget(form.level, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_help(form.level) }}
-                        {{ form_errors(form.level) }}
-                    </div>
+				<div class="mb-3">
+					{{ form_label(form.title) }}
+					{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+					{{ form_help(form.title) }}
+					<div class="form-error">
+						{{ form_errors(form.title) }}
+					</div>
+				</div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
+				<div class="mb-3">
+					{{ form_label(form.description) }}
+					{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+					{{ form_help(form.description) }}
+					<div class="form-error">
+						{{ form_errors(form.description) }}
+					</div>
+				</div>
+
+				<div class="mb-3">
+					{{ form_label(form.price) }}
+					{{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+					{{ form_help(form.price) }}
+					<div class="form-error">
+						{{ form_errors(form.price) }}
+					</div>
+				</div>
+
+				<div class="mb-3">
+					{{ form_label(form.image) }}
+					{{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+					{{ form_help(form.image) }}
+					<div class="form-error">
+						{{ form_errors(form.image) }}
+					</div>
+				</div>
+
+				<div class="mb-3">
+					{{ form_label(form.level) }}
+					{{ form_widget(form.level, {'attr': {'class': 'form-control'}}) }}
+					{{ form_help(form.level) }}
+					<div class="form-error">
+						{{ form_errors(form.level) }}
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Submit</button>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
 {% endblock %}

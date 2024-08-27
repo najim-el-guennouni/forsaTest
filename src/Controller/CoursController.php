@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Cours;
 use App\Form\CoursType;
 use App\Entity\WashList;
+use Symfony\Component\Form\FormError;
 use App\Repository\WashListRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ class CoursController extends AbstractController
 {
 
     #[Route('/cours', name: 'cours')]
-    public function cours(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function cours(): Response
     {
         return $this->render('cours/home.html.twig');
     }
@@ -48,7 +49,11 @@ class CoursController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // Handle exception during file upload
+                    $form->addError(new FormError('There was a problem uploading the image.'));
+                    $this->addFlash('error', 'Image upload failed. Please try again.');
+                    return $this->render('cours/new.html.twig', [
+                        'form' => $form->createView(),
+                    ]);
                 }
 
                 $cours->setImage($newFilename);
@@ -58,6 +63,8 @@ class CoursController extends AbstractController
 
             $entityManager->persist($cours);
             $entityManager->flush();
+            
+            $this->addFlash('success', 'The course has been successfully created.');
             return $this->redirectToRoute('app_main');
         }
 
@@ -79,12 +86,21 @@ class CoursController extends AbstractController
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
-                $imageFile->move(
-                    $this->getParameter('images_directory'),
-                    $newFilename
-                );
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                    $cours->setImage($newFilename);
 
-                $cours->setImage($newFilename);
+                } catch (FileException $e) {
+                    $form->addError(new FormError('There was a problem uploading the image.'));
+                    $this->addFlash('error', 'Image upload failed. Please try again.');
+                    return $this->render('cours/edit.html.twig', [
+                        'form' => $form->createView(),
+                        'cours' => $cours,
+                    ]);
+                }
             }
 
             $entityManager->flush();
@@ -117,6 +133,9 @@ class CoursController extends AbstractController
     {
         $entityManager->remove($washlist);
         $entityManager->flush();
+        
+        $this->addFlash('success', 'The course has been removed from your wishlist.');
+
 
         return $this->redirectToRoute('cours_wishlist');
     }
